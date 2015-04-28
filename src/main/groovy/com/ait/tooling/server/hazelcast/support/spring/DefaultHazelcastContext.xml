@@ -30,10 +30,6 @@
 						http://www.springframework.org/schema/cache
 						http://www.springframework.org/schema/cache/spring-cache.xsd">
 						
-	<bean id="DefaultCacheManager" class="com.hazelcast.spring.cache.HazelcastCacheManager">
-		<constructor-arg ref="HazelcastInstance" />
-	</bean>
-
-	<cache:annotation-driven />
-	
+	<bean id="HazelcastInstanceProvider" class="com.ait.tooling.server.hazelcast.support.spring.HazelcastInstanceProvider" />
+						
 </beans>

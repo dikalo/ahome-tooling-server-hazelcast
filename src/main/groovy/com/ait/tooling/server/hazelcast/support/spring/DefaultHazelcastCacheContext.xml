@@ -29,5 +29,11 @@
 						http://www.springframework.org/schema/task/spring-task.xsd
 						http://www.springframework.org/schema/cache
 						http://www.springframework.org/schema/cache/spring-cache.xsd">
+												
+	<bean id="DefaultCacheManager" class="com.ait.tooling.server.hazelcast.support.spring.HazelcastInstanceCashManager">
+		<constructor-arg ref="HazelcastInstanceProvider" />
+	</bean>
+
+	<cache:annotation-driven cache-manager="DefaultCacheManager" />
 	
 </beans>
