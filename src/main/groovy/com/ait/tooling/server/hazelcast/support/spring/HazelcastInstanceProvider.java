@@ -17,7 +17,8 @@
 package com.ait.tooling.server.hazelcast.support.spring;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Objects;
 
 import org.springframework.beans.BeansException;
@@ -31,7 +32,7 @@ import com.hazelcast.core.HazelcastInstance;
 
 public class HazelcastInstanceProvider implements BeanFactoryAware, IHazelcastInstanceProvider
 {
-    private final HashMap<String, HazelcastInstance> m_instances = new HashMap<String, HazelcastInstance>();
+    private final LinkedHashMap<String, HazelcastInstance> m_instances = new LinkedHashMap<String, HazelcastInstance>();
 
     public HazelcastInstanceProvider()
     {
@@ -50,7 +51,7 @@ public class HazelcastInstanceProvider implements BeanFactoryAware, IHazelcastIn
     @Override
     public Collection<String> getInstanceNames()
     {
-        return m_instances.keySet();
+        return Collections.unmodifiableCollection(m_instances.keySet());
     }
 
     @Override

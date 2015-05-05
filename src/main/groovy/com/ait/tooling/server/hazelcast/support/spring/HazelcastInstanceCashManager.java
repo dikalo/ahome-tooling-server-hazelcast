@@ -18,15 +18,16 @@ package com.ait.tooling.server.hazelcast.support.spring;
 
 import java.util.Objects;
 
+import com.ait.tooling.common.api.java.util.StringOps;
 import com.hazelcast.spring.cache.HazelcastCacheManager;
 
 public class HazelcastInstanceCashManager extends HazelcastCacheManager
 {
     public HazelcastInstanceCashManager(final String name, final IHazelcastInstanceProvider provider)
     {
-        super(Objects.requireNonNull(provider.getHazelcastInstance(name)));
+        super(Objects.requireNonNull(provider.getHazelcastInstance(StringOps.requireTrimOrNull(name))));
     }
-    
+
     public HazelcastInstanceCashManager(final IHazelcastInstanceProvider provider)
     {
         super(Objects.requireNonNull(provider.getHazelcastInstance()));

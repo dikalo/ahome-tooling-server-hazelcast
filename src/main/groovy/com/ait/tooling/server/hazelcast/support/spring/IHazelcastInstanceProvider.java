@@ -25,8 +25,8 @@ public interface IHazelcastInstanceProvider
     public HazelcastInstance getHazelcastInstance();
 
     public HazelcastInstance getHazelcastInstance(String name);
-    
+
     public Collection<String> getInstanceNames();
-    
+
     public String getDefaultInstanceName();
 }

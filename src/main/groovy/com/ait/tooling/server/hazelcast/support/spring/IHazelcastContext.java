@@ -25,16 +25,16 @@ import com.hazelcast.spring.cache.HazelcastCacheManager;
 public interface IHazelcastContext extends IServerContext
 {
     public IHazelcastInstanceProvider getHazelcastInstanceProvider();
-    
+
     public HazelcastInstance getHazelcastInstance();
 
     public HazelcastInstance getHazelcastInstance(String name);
-    
+
     public HazelcastCacheManager getHazelcastCacheManager();
-    
+
     public HazelcastCacheManager getHazelcastCacheManager(String name);
-    
+
     public String getDefaultInstanceName();
-    
+
     public Collection<String> getInstanceNames();
 }

@@ -17,10 +17,12 @@
 package com.ait.tooling.server.hazelcast.support.spring;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import org.springframework.core.env.Environment;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.ait.tooling.common.api.java.util.StringOps;
 import com.ait.tooling.server.core.jmx.management.IServerManager;
 import com.ait.tooling.server.core.security.IAuthorizationProvider;
 import com.ait.tooling.server.core.support.spring.IExecutorServiceDescriptorProvider;
@@ -56,23 +58,23 @@ public final class HazelcastContextInstance implements IHazelcastContext
     {
         return getBean("HazelcastInstanceProvider", HazelcastInstanceProvider.class);
     }
-    
+
     @Override
     public HazelcastCacheManager getHazelcastCacheManager()
     {
         return getHazelcastCacheManager("DefaultCacheManager");
     }
-    
+
     @Override
-    public HazelcastCacheManager getHazelcastCacheManager(String name)
+    public HazelcastCacheManager getHazelcastCacheManager(final String name)
     {
-        return getBean(name, HazelcastCacheManager.class);
+        return getBean(StringOps.requireTrimOrNull(name), HazelcastCacheManager.class);
     }
 
     @Override
     public HazelcastInstance getHazelcastInstance(final String name)
     {
-        return getHazelcastInstanceProvider().getHazelcastInstance(name);
+        return getHazelcastInstanceProvider().getHazelcastInstance(StringOps.requireTrimOrNull(name));
     }
 
     @Override
@@ -102,19 +104,19 @@ public final class HazelcastContextInstance implements IHazelcastContext
     @Override
     public <T> T getBean(final String name, final Class<T> type)
     {
-        return getServerContext().getBean(name, type);
+        return getServerContext().getBean(StringOps.requireTrimOrNull(name), Objects.requireNonNull(type));
     }
 
     @Override
     public String getPropertyByName(final String name)
     {
-        return getServerContext().getPropertyByName(name);
+        return getServerContext().getPropertyByName(StringOps.requireTrimOrNull(name));
     }
 
     @Override
     public String getPropertyByName(final String name, final String otherwise)
     {
-        return getServerContext().getPropertyByName(name, otherwise);
+        return getServerContext().getPropertyByName(StringOps.requireTrimOrNull(name), otherwise);
     }
 
     @Override
@@ -140,7 +142,7 @@ public final class HazelcastContextInstance implements IHazelcastContext
     {
         return getPropertyByName("hazelcast.default.instance.name", "default");
     }
-    
+
     @Override
     public IExecutorServiceDescriptorProvider getExecutorServiceDescriptorProvider()
     {
