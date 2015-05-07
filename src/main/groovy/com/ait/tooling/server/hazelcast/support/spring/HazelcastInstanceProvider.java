@@ -16,6 +16,7 @@
 
 package com.ait.tooling.server.hazelcast.support.spring;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -91,5 +92,11 @@ public class HazelcastInstanceProvider implements BeanFactoryAware, IHazelcastIn
         {
             m_instances.put("default", Hazelcast.newHazelcastInstance());
         }
+    }
+
+    @Override
+    public void close() throws IOException
+    {
+        Hazelcast.shutdownAll();
     }
 }
