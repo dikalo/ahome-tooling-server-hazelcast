@@ -1,33 +1,135 @@
 /*
- Copyright (c) 2014,2015 Ahome' Innovation Technologies. All rights reserved.
+ * Copyright (c) 2014,2015 Ahome' Innovation Technologies. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath(group: 'org.ajoberstar', name: 'grgit', version: '1.2.0')
+    }
+}
 
-     http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
+import org.apache.tools.ant.filters.FixCrLfFilter
+import org.apache.tools.ant.filters.ReplaceTokens
+import java.net.InetAddress
+import org.ajoberstar.grgit.Grgit
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
 sourceCompatibility = 1.7
 
-version = '1.0.36-SNAPSHOT'
+version = '1.0.50-SNAPSHOT'
 
 group = 'com.ahome-it'
 
+task('deleteConfigs', type: Delete) {
+    FileTree tree = fileTree (dir: 'build/resources/main');
+    tree.each { File file ->
+        delete(file)
+    }
+}
+
+task('filterConfigs', dependsOn: deleteConfigs, type: Copy) {
+    from sourceSets.main.allSource
+    into 'build/resources/main'
+    filter(FixCrLfFilter)
+    filter(ReplaceTokens, tokens: getFilterTokens())
+}
+
+jar.dependsOn(filterConfigs)
+
 jar {
     manifest {
-        attributes 'Implementation-Title': 'Ahome-Tooling-Server-Hazelcast', 'Implementation-Version': version
+        attributes 'Implementation-Title': getProjectTitle(), 'Implementation-Version': getBuildModuleVersion()
     }
-    from sourceSets.main.allSource
+}
+
+def getFilterTokens() {
+    [GRADLE_BUILD_ARTIFACT_ID: getProjectArtifactID(), GRADLE_BUILD_PROJECT_TITLE: getProjectTitle(), GRADLE_BUILD_USER: getBuildUser(), GRADLE_BUILD_DATE: getBuildDate(), GRADLE_JAVA_VERSION: getJavaVersion(), GRADLE_GIT_COMMIT_HASH: getBuildGITCommitHash(), GRADLE_GIT_COMMIT_USER: getBuildGITCommitUser(), GRADLE_GIT_COMMIT_MESSAGE: getBuildGITCommitMessage(), GRADLE_BUILD_SERVER_HOST: getBuildServerHost(), GRADLE_BUILD_SERVER_BUILD: getBuildServerBuild(), GRADLE_BUILD_MODULE_VERSION: getBuildModuleVersion()]
+}
+
+def getProjectArtifactID() {
+    'ahome-tooling-server-hazelcast'
+}
+
+def getProjectTitle() {
+    'Ahome-Tooling-Server-Hazelcast'
+}
+
+def getBuildModuleVersion() {
+    version
+}
+
+def getBuildDate() {
+    (new Date()).toString()
+}
+
+def getBuildServerHost() {
+    try
+    {
+        InetAddress.getLocalHost().getHostName()
+    }
+    catch (Exception e)
+    {
+        "localhost"
+    }
+}
+
+def getJavaVersion() {
+    String java = System.getProperty('java.version')
+    if (java)
+    {
+        return java
+    }
+    'unknown'
+}
+
+def getBuildUser() {
+    String user = System.getProperty('user.name')
+    if (user)
+    {
+        return user
+    }
+    'unknown'
+}
+
+def getBuildServerBuild() {
+    String name = System.getProperty('BUILD_DISPLAY_NAME')
+    if (name)
+    {
+        return name
+    }
+    'Command line ' + GradleVersion.current().toString()
+}
+
+def getBuildGITCommitHash() {
+    def grgit = Grgit.open(project.file('.'))
+    grgit.head().id
+}
+
+def getBuildGITCommitUser() {
+    def grgit = Grgit.open(project.file('.'))
+    grgit.head().committer.email
+}
+
+def getBuildGITCommitMessage() {
+    def grgit = Grgit.open(project.file('.'))
+    grgit.head().shortMessage
 }
 
 repositories {
@@ -52,9 +154,10 @@ configurations {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-cache', version: '1.0.35-SNAPSHOT')
-    compile(group: 'com.hazelcast', name: 'hazelcast', version: '3.4.2')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.47-SNAPSHOT')
+    compile(group: 'com.hazelcast', name: 'hazelcast-all', version: '3.4.2')
     compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.4.2')
+    compile(group: 'javax.cache', name: 'cache-api', version: '1.0.0')
 }
 
 uploadArchives {
