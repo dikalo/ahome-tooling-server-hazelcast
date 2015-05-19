@@ -37,13 +37,8 @@
 		<property name="buildModuleVersion" value="@GRADLE_BUILD_ARTIFACT_ID@-@GRADLE_BUILD_MODULE_VERSION@.jar"/>
 	</bean>
 	
-	<bean id="HazelcastCacheManager" class="com.hazelcast.spring.cache.HazelcastCacheManager">
-		<constructor-arg ref="${hazelcast.instance}"/>
-	</bean>
-	
 	<bean id="HazelcastInstanceProvider" class="om.ait.tooling.server.hazelcast.support.spring.HazelcastInstanceProvider">
-		<constructor-arg ref="${hazelcast.instance}"/>
-		<constructor-arg ref="HazelcastCacheManager"/>
+		<constructor-arg ref="HazelcastInstance"/>
 	</bean>
 	
 </beans>

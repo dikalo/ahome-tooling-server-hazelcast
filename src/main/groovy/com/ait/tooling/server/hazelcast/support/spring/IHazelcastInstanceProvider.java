@@ -20,11 +20,8 @@ import java.io.Closeable;
 import java.io.Serializable;
 
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.spring.cache.HazelcastCacheManager;
 
 public interface IHazelcastInstanceProvider extends Closeable, Serializable
 {
     public HazelcastInstance getHazelcastInstance();
-    
-    public HazelcastCacheManager getHazelcastCacheMananer();
 }

@@ -21,7 +21,6 @@ import java.util.Objects;
 
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.spring.cache.HazelcastCacheManager;
 
 public class HazelcastInstanceProvider implements IHazelcastInstanceProvider
 {
@@ -29,25 +28,15 @@ public class HazelcastInstanceProvider implements IHazelcastInstanceProvider
 
     private final HazelcastInstance     m_instance;
 
-    private final HazelcastCacheManager m_hz_cache;
-
-    public HazelcastInstanceProvider(final HazelcastInstance instance, final HazelcastCacheManager hz_cache)
+    public HazelcastInstanceProvider(final HazelcastInstance instance)
     {
         m_instance = Objects.requireNonNull(instance);
-
-        m_hz_cache = Objects.requireNonNull(hz_cache);
     }
 
     @Override
     public HazelcastInstance getHazelcastInstance()
     {
         return m_instance;
-    }
-
-    @Override
-    public HazelcastCacheManager getHazelcastCacheMananer()
-    {
-        return m_hz_cache;
     }
 
     @Override
