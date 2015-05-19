@@ -33,7 +33,7 @@ apply plugin: 'maven'
 
 sourceCompatibility = 1.7
 
-version = '1.0.52-SNAPSHOT'
+version = '1.0.55-SNAPSHOT'
 
 group = 'com.ahome-it'
 
@@ -151,6 +151,7 @@ tasks.withType(GroovyCompile) {
 
 configurations {
     compile.exclude(group: 'org.slf4j', module: 'log4j-over-slf4j')
+    compile.exclude(group: 'net.sourceforge.findbugs', module: 'annotations')
 }
 
 dependencies {

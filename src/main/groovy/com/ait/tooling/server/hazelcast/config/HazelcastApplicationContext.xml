@@ -37,7 +37,7 @@
 		<property name="buildModuleVersion" value="@GRADLE_BUILD_ARTIFACT_ID@-@GRADLE_BUILD_MODULE_VERSION@.jar"/>
 	</bean>
 	
-	<bean id="HazelcastInstanceProvider" class="om.ait.tooling.server.hazelcast.support.spring.HazelcastInstanceProvider">
+	<bean id="HazelcastInstanceProvider" class="com.ait.tooling.server.hazelcast.support.spring.HazelcastInstanceProvider">
 		<constructor-arg ref="HazelcastInstance"/>
 	</bean>
 	
