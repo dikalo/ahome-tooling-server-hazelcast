@@ -16,13 +16,15 @@
  * limitations under the License.
  */
 -->
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:task="http://www.springframework.org/schema/task"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:cache="http://www.springframework.org/schema/cache" xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 						http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/context
 						http://www.springframework.org/schema/context/spring-context.xsd
 						http://www.springframework.org/schema/task
-						http://www.springframework.org/schema/task/spring-task.xsd">
+						http://www.springframework.org/schema/task/spring-task.xsd
+						http://www.springframework.org/schema/cache
+						http://www.springframework.org/schema/cache/spring-cache.xsd">
 
 	<bean id="HazelcastBuildDescriptor" class="com.ait.tooling.server.core.support.spring.BuildDescriptor">
 		<constructor-arg value="@GRADLE_BUILD_PROJECT_TITLE@"/>
@@ -36,9 +38,16 @@
 		<property name="buildServerBuild" value="@GRADLE_BUILD_SERVER_BUILD@"/>
 		<property name="buildModuleVersion" value="@GRADLE_BUILD_ARTIFACT_ID@-@GRADLE_BUILD_MODULE_VERSION@.jar"/>
 	</bean>
-	
-	<bean id="HazelcastInstanceProvider" class="com.ait.tooling.server.hazelcast.support.spring.HazelcastInstanceProvider">
+
+	<bean id="HazelcastCacheManager" class="com.hazelcast.spring.cache.HazelcastCacheManager">
 		<constructor-arg ref="HazelcastInstance"/>
 	</bean>
+
+	<bean id="HazelcastInstanceProvider" class="com.ait.tooling.server.hazelcast.support.spring.HazelcastInstanceProvider">
+		<constructor-arg ref="HazelcastInstance"/>
+		<constructor-arg ref="HazelcastCacheManager"/>
+	</bean>
 	
+	<cache:annotation-driven cache-manager="HazelcastCacheManager"/>
+
 </beans>

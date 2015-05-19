@@ -33,7 +33,7 @@ apply plugin: 'maven'
 
 sourceCompatibility = 1.7
 
-version = '1.0.55-SNAPSHOT'
+version = '1.0.56-SNAPSHOT'
 
 group = 'com.ahome-it'
 
@@ -91,45 +91,27 @@ def getBuildServerHost() {
 }
 
 def getJavaVersion() {
-    String java = System.getProperty('java.version')
-    if (java)
-    {
-        return java
-    }
-    'unknown'
+    System.getProperty('java.version') ?: 'unknown'
 }
 
 def getBuildUser() {
-    String user = System.getProperty('user.name')
-    if (user)
-    {
-        return user
-    }
-    'unknown'
+    System.getProperty('user.name') ?: 'unknown'
 }
 
 def getBuildServerBuild() {
-    String name = System.getProperty('BUILD_DISPLAY_NAME')
-    if (name)
-    {
-        return name
-    }
-    'Command line ' + GradleVersion.current().toString()
+    System.getProperty('BUILD_DISPLAY_NAME') ?: 'Command line ' + GradleVersion.current().toString()
 }
 
 def getBuildGITCommitHash() {
-    def grgit = Grgit.open(project.file('.'))
-    grgit.head().id
+    Grgit.open(project.file('.')).head().id
 }
 
 def getBuildGITCommitUser() {
-    def grgit = Grgit.open(project.file('.'))
-    grgit.head().committer.email
+    Grgit.open(project.file('.')).head().committer.email
 }
 
 def getBuildGITCommitMessage() {
-    def grgit = Grgit.open(project.file('.'))
-    grgit.head().shortMessage
+    Grgit.open(project.file('.')).head().shortMessage
 }
 
 repositories {
@@ -138,11 +120,11 @@ repositories {
 }
 
 sourceSets {
-  main {
-    resources {
-      source groovy
+    main {
+        resources {
+            source groovy
+        }
     }
-  }
 }
 
 tasks.withType(GroovyCompile) {
@@ -157,6 +139,8 @@ configurations {
 dependencies {
     compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.47-SNAPSHOT')
     compile(group: 'com.hazelcast', name: 'hazelcast-all', version: '3.4.2')
+    compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.4.2')
+    compile(group: 'javax.cache', name: 'cache-api', version: '1.0.0')
 }
 
 uploadArchives {

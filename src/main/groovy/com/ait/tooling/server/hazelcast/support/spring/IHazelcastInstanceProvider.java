@@ -18,10 +18,20 @@ package com.ait.tooling.server.hazelcast.support.spring;
 
 import java.io.Closeable;
 import java.io.Serializable;
+import java.util.List;
+
+import org.springframework.cache.Cache;
 
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.spring.cache.HazelcastCacheManager;
 
 public interface IHazelcastInstanceProvider extends Closeable, Serializable
 {
     public HazelcastInstance getHazelcastInstance();
+    
+    public HazelcastCacheManager getHazelcastCacheManager();
+    
+    public Cache getCache(String name);
+    
+    public List<String> getCacheNames();
 }
