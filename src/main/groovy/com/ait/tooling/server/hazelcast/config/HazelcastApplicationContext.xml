@@ -40,11 +40,11 @@
 	</bean>
 
 	<bean id="HazelcastCacheManager" class="com.hazelcast.spring.cache.HazelcastCacheManager">
-		<constructor-arg ref="HazelcastInstance"/>
+		<constructor-arg ref="HazelcastClient"/>
 	</bean>
 
 	<bean id="HazelcastInstanceProvider" class="com.ait.tooling.server.hazelcast.support.spring.HazelcastInstanceProvider">
-		<constructor-arg ref="HazelcastInstance"/>
+		<constructor-arg ref="HazelcastClient"/>
 		<constructor-arg ref="HazelcastCacheManager"/>
 	</bean>
 	

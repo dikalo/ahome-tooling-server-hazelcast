@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import org.springframework.cache.Cache;
 
+import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.spring.cache.HazelcastCacheManager;
@@ -71,5 +72,7 @@ public final class HazelcastInstanceProvider implements IHazelcastInstanceProvid
     public void close() throws IOException
     {
         Hazelcast.shutdownAll();
+
+        HazelcastClient.shutdownAll();
     }
 }
