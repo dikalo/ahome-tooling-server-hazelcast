@@ -17,31 +17,20 @@
 package com.ait.tooling.server.hazelcast.support.spring;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
-import org.springframework.cache.Cache;
-
-import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.spring.cache.HazelcastCacheManager;
 
 public final class HazelcastInstanceProvider implements IHazelcastInstanceProvider
 {
-    private static final long           serialVersionUID = 9139899257457715041L;
+    private static final long       serialVersionUID = 9139899257457715041L;
 
-    private final HazelcastInstance     m_instance;
+    private final HazelcastInstance m_instance;
 
-    private final HazelcastCacheManager m_hz_cache;
-
-    public HazelcastInstanceProvider(final HazelcastInstance instance, final HazelcastCacheManager hz_cache)
+    public HazelcastInstanceProvider(final HazelcastInstance instance)
     {
         m_instance = Objects.requireNonNull(instance);
-
-        m_hz_cache = Objects.requireNonNull(hz_cache);
     }
 
     @Override
@@ -51,28 +40,8 @@ public final class HazelcastInstanceProvider implements IHazelcastInstanceProvid
     }
 
     @Override
-    public HazelcastCacheManager getHazelcastCacheManager()
-    {
-        return m_hz_cache;
-    }
-
-    @Override
-    public Cache getCache(final String name)
-    {
-        return getHazelcastCacheManager().getCache(Objects.requireNonNull(name));
-    }
-
-    @Override
-    public List<String> getCacheNames()
-    {
-        return Collections.unmodifiableList(new ArrayList<String>(getHazelcastCacheManager().getCacheNames()));
-    }
-
-    @Override
     public void close() throws IOException
     {
         Hazelcast.shutdownAll();
-
-        HazelcastClient.shutdownAll();
     }
 }

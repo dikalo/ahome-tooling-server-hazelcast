@@ -19,13 +19,10 @@ package com.ait.tooling.server.hazelcast.support
 import groovy.transform.CompileStatic
 import groovy.transform.Memoized
 
-import org.springframework.cache.Cache
-
 import com.ait.tooling.server.hazelcast.support.spring.HazelcastContextInstance
 import com.ait.tooling.server.hazelcast.support.spring.IHazelcastContext
 import com.ait.tooling.server.hazelcast.support.spring.IHazelcastInstanceProvider
 import com.hazelcast.core.HazelcastInstance
-import com.hazelcast.spring.cache.HazelcastCacheManager
 
 @CompileStatic
 public trait HazelcastTrait
@@ -49,32 +46,8 @@ public trait HazelcastTrait
     }
 
     @Memoized
-    public HazelcastCacheManager getHazelcastCacheManager()
-    {
-        getHazelcastInstanceProvider().getHazelcastCacheManager()
-    }
-
-    @Memoized
     public HazelcastInstance hz()
     {
         getHazelcastInstance()
-    }
-
-    @Memoized
-    public HazelcastCacheManager hzcache()
-    {
-        getHazelcastInstanceProvider().getHazelcastCacheManager()
-    }
-    
-    @Memoized
-    public Cache getCache(String name)
-    {
-        getHazelcastInstanceProvider().getCache(name)
-    }
-
-    @Memoized
-    public List<String> getCacheNames()
-    {
-        getHazelcastInstanceProvider().getCacheNames()
     }
 }
