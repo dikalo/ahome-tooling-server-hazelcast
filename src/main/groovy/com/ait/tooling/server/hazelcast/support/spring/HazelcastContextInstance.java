@@ -24,11 +24,12 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.ait.tooling.common.api.java.util.StringOps;
 import com.ait.tooling.json.JSONObject;
+import com.ait.tooling.json.schema.JSONSchema;
 import com.ait.tooling.server.core.jmx.management.ICoreServerManager;
 import com.ait.tooling.server.core.pubsub.IPubSubDescriptorProvider;
 import com.ait.tooling.server.core.pubsub.IPubSubHandlerRegistration;
@@ -47,6 +48,8 @@ import com.ait.tooling.server.core.support.spring.ServerContextInstance;
 public final class HazelcastContextInstance implements IHazelcastContext
 {
     private static final long                     serialVersionUID = 8064409806893442509L;
+
+    private static final Logger                   logger           = Logger.getLogger(HazelcastContextInstance.class);
 
     private static final HazelcastContextInstance INSTANCE         = new HazelcastContextInstance();
 
@@ -72,7 +75,7 @@ public final class HazelcastContextInstance implements IHazelcastContext
     }
 
     @Override
-    public WebApplicationContext getApplicationContext()
+    public ApplicationContext getApplicationContext()
     {
         return getServerContext().getApplicationContext();
     }
@@ -83,6 +86,7 @@ public final class HazelcastContextInstance implements IHazelcastContext
         return getServerContext().getEnvironment();
     }
 
+    @Override
     public <T> T getBean(final String name, final Class<T> type)
     {
         return getApplicationContext().getBean(StringOps.requireTrimOrNull(name), Objects.requireNonNull(type));
@@ -181,7 +185,7 @@ public final class HazelcastContextInstance implements IHazelcastContext
     @Override
     public Logger logger()
     {
-        return getServerContext().logger();
+        return logger;
     }
 
     @Override
@@ -212,5 +216,17 @@ public final class HazelcastContextInstance implements IHazelcastContext
     public JSONObject json(List<?> list)
     {
         return getServerContext().json(list);
+    }
+
+    @Override
+    public JSONSchema jsonschema(Map<String, ?> schema)
+    {
+        return getServerContext().jsonschema(schema);
+    }
+
+    @Override
+    public String uuid()
+    {
+        return getServerContext().uuid();
     }
 }
