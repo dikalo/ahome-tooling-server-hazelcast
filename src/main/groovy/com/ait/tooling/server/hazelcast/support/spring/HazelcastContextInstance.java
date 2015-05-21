@@ -16,8 +16,14 @@
 
 package com.ait.tooling.server.hazelcast.support.spring;
 
+import groovy.lang.Closure;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import org.apache.log4j.Logger;
 import org.springframework.core.env.Environment;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -25,6 +31,11 @@ import com.ait.tooling.common.api.java.util.StringOps;
 import com.ait.tooling.json.JSONObject;
 import com.ait.tooling.server.core.jmx.management.ICoreServerManager;
 import com.ait.tooling.server.core.pubsub.IPubSubDescriptorProvider;
+import com.ait.tooling.server.core.pubsub.IPubSubHandlerRegistration;
+import com.ait.tooling.server.core.pubsub.IPubSubMessageReceivedHandler;
+import com.ait.tooling.server.core.pubsub.IPubSubStateChangedHandler;
+import com.ait.tooling.server.core.pubsub.PubSubChannelType;
+import com.ait.tooling.server.core.pubsub.PubSubStateType;
 import com.ait.tooling.server.core.security.AuthorizationResult;
 import com.ait.tooling.server.core.security.IAuthorizationProvider;
 import com.ait.tooling.server.core.support.spring.IBuildDescriptorProvider;
@@ -135,5 +146,71 @@ public final class HazelcastContextInstance implements IHazelcastContext
     public AuthorizationResult isAuthorized(Object target, JSONObject principals)
     {
         return getServerContext().isAuthorized(target, principals);
+    }
+
+    @Override
+    public JSONObject publish(String name, PubSubChannelType type, JSONObject message) throws Exception
+    {
+        return getServerContext().publish(name, type, message);
+    }
+
+    @Override
+    public IPubSubHandlerRegistration addMessageReceivedHandler(String name, PubSubChannelType type, Closure<JSONObject> handler) throws Exception
+    {
+        return getServerContext().addMessageReceivedHandler(name, type, handler);
+    }
+
+    @Override
+    public IPubSubHandlerRegistration addMessageReceivedHandler(String name, PubSubChannelType type, IPubSubMessageReceivedHandler handler) throws Exception
+    {
+        return getServerContext().addMessageReceivedHandler(name, type, handler);
+    }
+
+    @Override
+    public IPubSubHandlerRegistration addStateChangedHandler(String name, PubSubChannelType type, Closure<PubSubStateType> handler) throws Exception
+    {
+        return getServerContext().addStateChangedHandler(name, type, handler);
+    }
+
+    @Override
+    public IPubSubHandlerRegistration addStateChangedHandler(String name, PubSubChannelType type, IPubSubStateChangedHandler handler) throws Exception
+    {
+        return getServerContext().addStateChangedHandler(name, type, handler);
+    }
+
+    @Override
+    public Logger logger()
+    {
+        return getServerContext().logger();
+    }
+
+    @Override
+    public JSONObject json()
+    {
+        return getServerContext().json();
+    }
+
+    @Override
+    public JSONObject json(Map<String, ?> valu)
+    {
+        return getServerContext().json(valu);
+    }
+
+    @Override
+    public JSONObject json(String name, Object value)
+    {
+        return getServerContext().json(name, value);
+    }
+
+    @Override
+    public JSONObject json(Collection<?> collection)
+    {
+        return getServerContext().json(collection);
+    }
+
+    @Override
+    public JSONObject json(List<?> list)
+    {
+        return getServerContext().json(list);
     }
 }
