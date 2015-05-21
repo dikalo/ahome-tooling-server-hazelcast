@@ -33,7 +33,7 @@ apply plugin: 'maven'
 
 sourceCompatibility = 1.7
 
-version = '1.0.62-SNAPSHOT'
+version = '1.0.63-SNAPSHOT'
 
 group = 'com.ahome-it'
 
@@ -137,7 +137,7 @@ configurations {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.49-SNAPSHOT')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.50-SNAPSHOT')
     compile(group: 'com.hazelcast', name: 'hazelcast-all', version: '3.4.2')
 }
 
