@@ -33,7 +33,7 @@ apply plugin: 'maven'
 
 sourceCompatibility = 1.7
 
-version = '1.0.65-SNAPSHOT'
+version = '1.0.64-SNAPSHOT'
 
 group = 'com.ahome-it'
 
