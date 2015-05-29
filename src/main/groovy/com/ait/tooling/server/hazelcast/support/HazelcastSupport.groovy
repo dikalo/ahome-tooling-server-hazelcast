@@ -41,7 +41,7 @@ public class HazelcastSupport extends CoreGroovySupport implements Serializable
     @Memoized
     public IHazelcastContext getHazelcastContext()
     {
-        HazelcastContextInstance.get()
+        HazelcastContextInstance.getHazelcastContextInstance()
     }
 
     @Memoized

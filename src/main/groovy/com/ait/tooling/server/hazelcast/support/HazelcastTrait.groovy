@@ -30,7 +30,7 @@ public trait HazelcastTrait
     @Memoized
     public IHazelcastContext getHazelcastContext()
     {
-        HazelcastContextInstance.get()
+        HazelcastContextInstance.getHazelcastContextInstance()
     }
 
     @Memoized
