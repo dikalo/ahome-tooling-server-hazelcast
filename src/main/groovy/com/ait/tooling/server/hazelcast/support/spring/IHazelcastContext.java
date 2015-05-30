@@ -17,8 +17,25 @@
 package com.ait.tooling.server.hazelcast.support.spring;
 
 import com.ait.tooling.server.core.support.spring.IServerContext;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IList;
+import com.hazelcast.core.IMap;
+import com.hazelcast.core.IQueue;
+import com.hazelcast.core.ITopic;
 
 public interface IHazelcastContext extends IServerContext
 {
     public IHazelcastInstanceProvider getHazelcastInstanceProvider();
+
+    public HazelcastInstance getHazelcastInstance();
+    
+    public HazelcastInstance hz();
+
+    public <T> IList<T> getList(String name);
+
+    public <E> IQueue<E> getQueue(String name);
+
+    public <E> ITopic<E> getTopic(String name);
+
+    public <K, V> IMap<K, V> getMap(String name);
 }

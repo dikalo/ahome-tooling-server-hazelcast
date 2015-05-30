@@ -24,9 +24,13 @@ import com.ait.tooling.server.hazelcast.support.spring.HazelcastContextInstance
 import com.ait.tooling.server.hazelcast.support.spring.IHazelcastContext
 import com.ait.tooling.server.hazelcast.support.spring.IHazelcastInstanceProvider
 import com.hazelcast.core.HazelcastInstance
+import com.hazelcast.core.IList
+import com.hazelcast.core.IMap
+import com.hazelcast.core.IQueue
+import com.hazelcast.core.ITopic
 
 @CompileStatic
-public class HazelcastSupport extends CoreGroovySupport implements Serializable
+public class HazelcastSupport extends CoreGroovySupport implements IHazelcastContext, Serializable
 {
     private static final HazelcastSupport INSTANCE = new HazelcastSupport()
 
@@ -54,5 +58,35 @@ public class HazelcastSupport extends CoreGroovySupport implements Serializable
     public HazelcastInstance getHazelcastInstance()
     {
         getHazelcastInstanceProvider().getHazelcastInstance()
+    }
+
+    @Memoized
+    public HazelcastInstance hz()
+    {
+        getHazelcastInstance()
+    }
+
+    @Override
+    public <T> IList<T> getList(String name)
+    {
+        hz().getList(Objects.requireNonNull(name))
+    }
+
+    @Override
+    public <E> IQueue<E> getQueue(String name)
+    {
+        hz().getQueue(Objects.requireNonNull(name))
+    }
+
+    @Override
+    public <E> ITopic<E> getTopic(String name)
+    {
+        hz().getTopic(Objects.requireNonNull(name))
+    }
+
+    @Override
+    public <K, V> IMap<K, V> getMap(String name)
+    {
+        hz().getMap(Objects.requireNonNull(name))
     }
 }

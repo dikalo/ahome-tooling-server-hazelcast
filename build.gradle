@@ -33,7 +33,7 @@ apply plugin: 'maven'
 
 sourceCompatibility = 1.7
 
-version = '1.0.67-SNAPSHOT'
+version = '1.0.68-SNAPSHOT'
 
 group = 'com.ahome-it'
 
@@ -137,8 +137,9 @@ configurations {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.64-SNAPSHOT')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.65-SNAPSHOT')
     compile(group: 'com.hazelcast', name: 'hazelcast-all', version: '3.4.2')
+    compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.4.2')
 }
 
 uploadArchives {

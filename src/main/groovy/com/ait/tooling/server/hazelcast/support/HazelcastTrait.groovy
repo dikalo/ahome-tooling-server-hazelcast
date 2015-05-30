@@ -23,6 +23,10 @@ import com.ait.tooling.server.hazelcast.support.spring.HazelcastContextInstance
 import com.ait.tooling.server.hazelcast.support.spring.IHazelcastContext
 import com.ait.tooling.server.hazelcast.support.spring.IHazelcastInstanceProvider
 import com.hazelcast.core.HazelcastInstance
+import com.hazelcast.core.IList
+import com.hazelcast.core.IMap
+import com.hazelcast.core.IQueue
+import com.hazelcast.core.ITopic
 
 @CompileStatic
 public trait HazelcastTrait
@@ -49,5 +53,25 @@ public trait HazelcastTrait
     public HazelcastInstance hz()
     {
         getHazelcastInstance()
+    }
+
+    public <T> IList<T> getList(String name)
+    {
+        hz().getList(Objects.requireNonNull(name))
+    }
+
+    public <E> IQueue<E> getQueue(String name)
+    {
+        hz().getQueue(Objects.requireNonNull(name))
+    }
+
+    public <E> ITopic<E> getTopic(String name)
+    {
+        hz().getTopic(Objects.requireNonNull(name))
+    }
+
+    public <K, V> IMap<K, V> getMap(String name)
+    {
+        hz().getMap(Objects.requireNonNull(name))
     }
 }
