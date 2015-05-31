@@ -39,11 +39,17 @@ public abstract class AbstractHazelcastSubscribeDescriptor extends AbstractSubsc
     protected void addSubscriberCount(final int incr)
     {
         m_subs = Math.max(0, m_subs + incr);
+        
+        ping();
     }
 
     protected int getTotalSubscriberCount()
     {
         return m_subs + m_size;
+    }
+    
+    protected void ping()
+    {
     }
 
     @Override
@@ -62,9 +68,9 @@ public abstract class AbstractHazelcastSubscribeDescriptor extends AbstractSubsc
             @Override
             public void removeHandler()
             {
-                addSubscriberCount(0 - 1);
-
                 m_proxy.removeHandler();
+
+                addSubscriberCount(0 - 1);
             }
         };
     }
@@ -75,6 +81,8 @@ public abstract class AbstractHazelcastSubscribeDescriptor extends AbstractSubsc
         super.setSubscribeListener(Objects.requireNonNull(listener));
 
         m_size = 1;
+        
+        ping();
     }
 
     public void setSubscribeListeners(final List<IPubSubMessageReceivedHandler> listeners)
@@ -82,5 +90,7 @@ public abstract class AbstractHazelcastSubscribeDescriptor extends AbstractSubsc
         super.setSubscribeListeners(listeners);
 
         m_size = listeners.size();
+        
+        ping();
     }
 }

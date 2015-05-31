@@ -17,8 +17,12 @@
 package com.ait.tooling.server.hazelcast.pubsub;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import com.ait.tooling.json.JSONObject;
+import com.ait.tooling.server.core.pubsub.MessageReceivedEvent;
 import com.ait.tooling.server.core.pubsub.PubSubChannelType;
 import com.hazelcast.core.IQueue;
 
@@ -28,10 +32,50 @@ public class HazelcastQueueSubscribeDescriptor extends AbstractHazelcastSubscrib
 
     private final IQueue<JSONObject> m_queue;
 
+    private final ExecutorService    m_exec           = Executors.newSingleThreadExecutor();
+
     public HazelcastQueueSubscribeDescriptor(final String name, final IQueue<JSONObject> queue)
     {
         super(Objects.requireNonNull(name), PubSubChannelType.QUEUE);
 
         m_queue = Objects.requireNonNull(queue);
+    }
+
+    @Override
+    protected synchronized void ping()
+    {
+        if (getTotalSubscriberCount() > 0)
+        {
+            if (false == isActive())
+            {
+                setActive(true);
+
+                final HazelcastQueueSubscribeDescriptor self = this;
+
+                m_exec.execute(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        while (isActive())
+                        {
+                            try
+                            {
+                                JSONObject json = m_queue.poll(10, TimeUnit.SECONDS);
+
+                                if (null != json)
+                                {
+                                    getSubscribeDescriptorSupport().dispatch(new MessageReceivedEvent(self, json), self);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                logger().error("Something bad happened", e);
+                            }
+                        }
+                    }
+                });
+            }
+        }
     }
 }
