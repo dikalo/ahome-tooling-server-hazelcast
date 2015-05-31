@@ -46,8 +46,6 @@ public class HazelcastQueueSubscribeDescriptor extends AbstractHazelcastSubscrib
     @Override
     protected synchronized void ping()
     {
-        logger().info("ping");
-
         if (getTotalSubscriberCount() > 0)
         {
             if (false == isActive())
@@ -56,31 +54,20 @@ public class HazelcastQueueSubscribeDescriptor extends AbstractHazelcastSubscrib
 
                 final HazelcastQueueSubscribeDescriptor self = this;
 
-                logger().info("init exec");
-
                 m_exec.execute(new Runnable()
                 {
                     @Override
                     public void run()
                     {
-                        logger().info("init while");
-
                         while (isActive())
                         {
                             try
                             {
-                                logger().info("init poll");
-
-                                JSONObject json = m_queue.poll(10, TimeUnit.SECONDS);
+                                JSONObject json = m_queue.poll(30, TimeUnit.SECONDS);
 
                                 if (null != json)
                                 {
                                     getSubscribeDescriptorSupport().dispatch(new MessageReceivedEvent(self, json), self);
-                                }
-                                else
-                                {
-                                    logger().info("null json");
-
                                 }
                             }
                             catch (Exception e)
@@ -88,18 +75,9 @@ public class HazelcastQueueSubscribeDescriptor extends AbstractHazelcastSubscrib
                                 logger().error("Something bad happened", e);
                             }
                         }
-                        logger().info("exit while");
                     }
                 });
             }
-            else
-            {
-                logger().info("already active");
-            }
-        }
-        else
-        {
-            logger().info("count  " + getTotalSubscriberCount());
         }
     }
 }
