@@ -33,7 +33,7 @@ apply plugin: 'maven'
 
 sourceCompatibility = 1.7
 
-version = '1.0.73-SNAPSHOT'
+version = '1.0.74-SNAPSHOT'
 
 group = 'com.ahome-it'
 
@@ -50,6 +50,8 @@ task('filterConfigs', dependsOn: deleteConfigs, type: Copy) {
     filter(FixCrLfFilter)
     filter(ReplaceTokens, tokens: getFilterTokens())
 }
+
+compileJava.dependsOn(clean)
 
 jar.dependsOn(filterConfigs)
 
@@ -137,7 +139,7 @@ configurations {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.68-SNAPSHOT')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.70-SNAPSHOT')
     compile(group: 'com.hazelcast', name: 'hazelcast-all', version: '3.4.2')
     compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.4.2')
 }

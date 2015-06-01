@@ -77,6 +77,7 @@ public class HazelcastQueueSubscribeDescriptor extends AbstractHazelcastSubscrib
                         }
                     }
                 });
+                m_exec.shutdown();
             }
         }
     }
