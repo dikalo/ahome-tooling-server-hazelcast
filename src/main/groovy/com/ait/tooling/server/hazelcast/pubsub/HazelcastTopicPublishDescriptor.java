@@ -19,13 +19,14 @@ package com.ait.tooling.server.hazelcast.pubsub;
 import java.io.IOException;
 import java.util.Objects;
 
-import com.ait.tooling.common.api.types.Activatible;
+import com.ait.tooling.common.api.types.Activatable;
 import com.ait.tooling.json.JSONObject;
 import com.ait.tooling.server.core.pubsub.IPublishDescriptor;
+import com.ait.tooling.server.core.pubsub.JSONMessage;
 import com.ait.tooling.server.core.pubsub.PubSubChannelType;
 import com.hazelcast.core.ITopic;
 
-public class HazelcastTopicPublishDescriptor extends Activatible implements IPublishDescriptor
+public class HazelcastTopicPublishDescriptor extends Activatable implements IPublishDescriptor
 {
     private static final long        serialVersionUID = -6238196945440514095L;
 
@@ -35,6 +36,8 @@ public class HazelcastTopicPublishDescriptor extends Activatible implements IPub
 
     public HazelcastTopicPublishDescriptor(final String name, final ITopic<JSONObject> topic)
     {
+        super(true);
+
         m_name = Objects.requireNonNull(name);
 
         m_topic = Objects.requireNonNull(topic);
@@ -53,11 +56,9 @@ public class HazelcastTopicPublishDescriptor extends Activatible implements IPub
     }
 
     @Override
-    public JSONObject publish(final JSONObject message) throws Exception
+    public void publish(final JSONMessage message) throws Exception
     {
-        m_topic.publish(Objects.requireNonNull(message));
-
-        return message;
+        m_topic.publish(Objects.requireNonNull(message).getPayload());
     }
 
     @Override

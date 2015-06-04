@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import com.ait.tooling.json.JSONObject;
-import com.ait.tooling.server.core.pubsub.MessageReceivedEvent;
+import com.ait.tooling.server.core.pubsub.JSONMessage;
 import com.ait.tooling.server.core.pubsub.PubSubChannelType;
 import com.hazelcast.core.IQueue;
 
@@ -67,7 +67,7 @@ public class HazelcastQueueSubscribeDescriptor extends AbstractHazelcastSubscrib
 
                                 if (null != json)
                                 {
-                                    getSubscribeDescriptorSupport().dispatch(new MessageReceivedEvent(self, json), self);
+                                    getSubscribeDescriptorSupport().dispatch(new JSONMessage(json), self);
                                 }
                             }
                             catch (Exception e)

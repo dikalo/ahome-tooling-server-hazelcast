@@ -19,7 +19,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath(group: 'org.ajoberstar', name: 'grgit', version: '1.2.0')
+        classpath(group: 'org.ajoberstar', name: 'grgit', version: '1.3.0')
     }
 }
 
@@ -33,7 +33,7 @@ apply plugin: 'maven'
 
 sourceCompatibility = 1.7
 
-version = '1.0.74-SNAPSHOT'
+version = '1.0.75-SNAPSHOT'
 
 group = 'com.ahome-it'
 
@@ -105,7 +105,7 @@ def getBuildServerBuild() {
 }
 
 def getBuildGITCommitHash() {
-    Grgit.open(project.file('.')).head().id
+    'https://github.com/ahome-it/' + getProjectArtifactID() + '/commit/' + Grgit.open(project.file('.')).head().id
 }
 
 def getBuildGITCommitUser() {
@@ -139,7 +139,7 @@ configurations {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.70-SNAPSHOT')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.71-SNAPSHOT')
     compile(group: 'com.hazelcast', name: 'hazelcast-all', version: '3.4.2')
     compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.4.2')
 }

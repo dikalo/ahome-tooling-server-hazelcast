@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import com.ait.tooling.json.JSONObject;
-import com.ait.tooling.server.core.pubsub.MessageReceivedEvent;
+import com.ait.tooling.server.core.pubsub.JSONMessage;
 import com.ait.tooling.server.core.pubsub.PubSubChannelType;
 import com.hazelcast.core.ITopic;
 import com.hazelcast.core.Message;
@@ -55,7 +55,7 @@ public class HazelcastTopicSubscribeDescriptor extends AbstractHazelcastSubscrib
                     {
                         try
                         {
-                            getSubscribeDescriptorSupport().dispatch(new MessageReceivedEvent(self, json), self);
+                            getSubscribeDescriptorSupport().dispatch(new JSONMessage(json), self);
                         }
                         catch (Exception e)
                         {
