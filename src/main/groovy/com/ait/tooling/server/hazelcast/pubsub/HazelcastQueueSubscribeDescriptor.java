@@ -32,8 +32,6 @@ public class HazelcastQueueSubscribeDescriptor extends AbstractHazelcastSubscrib
 
     private final IQueue<JSONObject> m_queue;
 
-    private final ExecutorService    m_exec           = Executors.newSingleThreadExecutor();
-
     public HazelcastQueueSubscribeDescriptor(final String name, final IQueue<JSONObject> queue)
     {
         super(Objects.requireNonNull(name), PubSubChannelType.QUEUE);
@@ -52,14 +50,14 @@ public class HazelcastQueueSubscribeDescriptor extends AbstractHazelcastSubscrib
             {
                 setActive(true);
 
-                final HazelcastQueueSubscribeDescriptor self = this;
+                final ExecutorService exec = Executors.newSingleThreadExecutor();
 
-                m_exec.execute(new Runnable()
+                exec.execute(new Runnable()
                 {
                     @Override
                     public void run()
                     {
-                        while (isActive())
+                        while ((isActive()) && (getTotalSubscriberCount() > 0))
                         {
                             try
                             {
@@ -67,7 +65,7 @@ public class HazelcastQueueSubscribeDescriptor extends AbstractHazelcastSubscrib
 
                                 if (null != json)
                                 {
-                                    getSubscribeDescriptorSupport().dispatch(new JSONMessage(json), self);
+                                    getSubscribeDescriptorSupport().dispatch(new JSONMessage(json));
                                 }
                             }
                             catch (Exception e)
@@ -75,9 +73,10 @@ public class HazelcastQueueSubscribeDescriptor extends AbstractHazelcastSubscrib
                                 logger().error("Something bad happened", e);
                             }
                         }
+                        setActive(false);
                     }
                 });
-                m_exec.shutdown();
+                exec.shutdown();
             }
         }
     }

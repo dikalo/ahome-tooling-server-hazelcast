@@ -38,8 +38,6 @@ public class HazelcastTopicSubscribeDescriptor extends AbstractHazelcastSubscrib
     {
         super(Objects.requireNonNull(name), PubSubChannelType.TOPIC);
 
-        final HazelcastTopicSubscribeDescriptor self = this;
-
         m_topic = Objects.requireNonNull(topic);
 
         m_added = m_topic.addMessageListener(new MessageListener<JSONObject>()
@@ -55,7 +53,7 @@ public class HazelcastTopicSubscribeDescriptor extends AbstractHazelcastSubscrib
                     {
                         try
                         {
-                            getSubscribeDescriptorSupport().dispatch(new JSONMessage(json), self);
+                            getSubscribeDescriptorSupport().dispatch(new JSONMessage(json));
                         }
                         catch (Exception e)
                         {

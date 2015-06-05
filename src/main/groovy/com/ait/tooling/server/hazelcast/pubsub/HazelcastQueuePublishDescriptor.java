@@ -19,6 +19,8 @@ package com.ait.tooling.server.hazelcast.pubsub;
 import java.io.IOException;
 import java.util.Objects;
 
+import org.apache.log4j.Logger;
+
 import com.ait.tooling.common.api.types.Activatable;
 import com.ait.tooling.json.JSONObject;
 import com.ait.tooling.server.core.pubsub.IPublishDescriptor;
@@ -29,6 +31,8 @@ import com.hazelcast.core.IQueue;
 public class HazelcastQueuePublishDescriptor extends Activatable implements IPublishDescriptor
 {
     private static final long        serialVersionUID = -6238196945440514095L;
+
+    private static final Logger      logger           = Logger.getLogger(HazelcastQueuePublishDescriptor.class);
 
     private final String             m_name;
 
@@ -56,9 +60,16 @@ public class HazelcastQueuePublishDescriptor extends Activatable implements IPub
     }
 
     @Override
-    public void publish(final JSONMessage message) throws Exception
+    public void publish(final JSONMessage message)
     {
-        m_queue.put(Objects.requireNonNull(message).getPayload());
+        try
+        {
+            m_queue.put(Objects.requireNonNull(Objects.requireNonNull(message).getPayload()));
+        }
+        catch (Exception e)
+        {
+            logger.error("publish error ", e);
+        }
     }
 
     @Override

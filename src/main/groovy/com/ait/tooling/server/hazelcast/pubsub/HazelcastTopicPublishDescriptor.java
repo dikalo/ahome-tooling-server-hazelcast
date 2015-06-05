@@ -56,9 +56,9 @@ public class HazelcastTopicPublishDescriptor extends Activatable implements IPub
     }
 
     @Override
-    public void publish(final JSONMessage message) throws Exception
+    public void publish(final JSONMessage message)
     {
-        m_topic.publish(Objects.requireNonNull(message).getPayload());
+        m_topic.publish(Objects.requireNonNull(Objects.requireNonNull(message).getPayload()));
     }
 
     @Override

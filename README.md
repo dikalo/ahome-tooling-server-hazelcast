@@ -16,7 +16,7 @@ https://github.com/ahome-it/ahome-tooling-server-hazelcast
 <dependency>
   <groupId>com.ahome-it</groupId>
   <artifactId>ahome-tooling-server-hazelcast</artifactId>
-  <version>1.0.77-SNAPSHOT</version>
+  <version>1.0.78-SNAPSHOT</version>
 </dependency>
 ```
 
