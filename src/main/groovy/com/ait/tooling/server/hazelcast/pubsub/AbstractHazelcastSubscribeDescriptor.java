@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Objects;
 
 import com.ait.tooling.server.core.pubsub.AbstractSubscribeDescriptor;
-import com.ait.tooling.server.core.pubsub.IPubSubHandlerRegistration;
-import com.ait.tooling.server.core.pubsub.IPubSubMessageReceivedHandler;
+import com.ait.tooling.server.core.pubsub.IMessageReceivedHandler;
+import com.ait.tooling.server.core.pubsub.IMessageReceivedHandlerRegistration;
 import com.ait.tooling.server.core.pubsub.PubSubChannelType;
 
 @SuppressWarnings("serial")
@@ -39,7 +39,7 @@ public abstract class AbstractHazelcastSubscribeDescriptor extends AbstractSubsc
     protected void addSubscriberCount(final int incr)
     {
         m_subs = Math.max(0, m_subs + incr);
-        
+
         ping();
     }
 
@@ -47,23 +47,23 @@ public abstract class AbstractHazelcastSubscribeDescriptor extends AbstractSubsc
     {
         return m_subs + m_size;
     }
-    
+
     protected void ping()
     {
     }
 
     @Override
-    public IPubSubHandlerRegistration addMessageReceivedHandler(final IPubSubMessageReceivedHandler handler)
+    public IMessageReceivedHandlerRegistration addMessageReceivedHandler(final IMessageReceivedHandler handler)
     {
         Objects.requireNonNull(handler);
 
         addSubscriberCount(0 + 1);
 
-        return new IPubSubHandlerRegistration()
+        return new IMessageReceivedHandlerRegistration()
         {
-            private static final long                serialVersionUID = -4801721135204751486L;
+            private static final long                         serialVersionUID = -4801721135204751486L;
 
-            private final IPubSubHandlerRegistration m_proxy          = getSubscribeDescriptorSupport().addMessageReceivedHandler(handler);
+            private final IMessageReceivedHandlerRegistration m_proxy          = getSubscribeDescriptorSupport().addMessageReceivedHandler(handler);
 
             @Override
             public void removeHandler()
@@ -76,21 +76,21 @@ public abstract class AbstractHazelcastSubscribeDescriptor extends AbstractSubsc
     }
 
     @Override
-    public void setSubscribeListener(final IPubSubMessageReceivedHandler listener)
+    public void setSubscribeListener(final IMessageReceivedHandler listener)
     {
         super.setSubscribeListener(Objects.requireNonNull(listener));
 
         m_size = 1;
-        
+
         ping();
     }
 
-    public void setSubscribeListeners(final List<IPubSubMessageReceivedHandler> listeners)
+    public void setSubscribeListeners(final List<IMessageReceivedHandler> listeners)
     {
         super.setSubscribeListeners(listeners);
 
         m_size = listeners.size();
-        
+
         ping();
     }
 }
