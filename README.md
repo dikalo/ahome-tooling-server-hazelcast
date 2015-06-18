@@ -5,18 +5,13 @@ Ahome Tooling Server Hazelcast is a package containing basic server Hazelcast su
 
 https://github.com/ahome-it/ahome-tooling-server-hazelcast
 
-```xml
-<repositories>
-  <repository>
-  <id>sonatype</id>
-  <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-  </repository>
-</repositories>
+RELEASE:
 
+```xml
 <dependency>
   <groupId>com.ahome-it</groupId>
   <artifactId>ahome-tooling-server-hazelcast</artifactId>
-  <version>1.0.87-SNAPSHOT</version>
+  <version>1.0.88-RC1</version>
 </dependency>
 ```
 

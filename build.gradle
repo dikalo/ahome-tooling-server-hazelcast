@@ -30,10 +30,11 @@ import org.ajoberstar.grgit.Grgit
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 sourceCompatibility = 1.7
 
-version = '1.0.87-SNAPSHOT'
+version = '1.0.88-RC1'
 
 group = 'com.ahome-it'
 
@@ -49,6 +50,22 @@ task('filterConfigs', dependsOn: deleteConfigs, type: Copy) {
     into 'build/resources/main'
     filter(FixCrLfFilter)
     filter(ReplaceTokens, tokens: getFilterTokens())
+}
+
+task doJavaDocs(type: Javadoc) {
+    source = sourceSets.main.allJava
+    failOnError = false
+    title = 'Ahome Tooling Server Hazelcast'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: doJavaDocs) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
 }
 
 compileJava.dependsOn(clean)
@@ -139,16 +156,53 @@ configurations {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.83-SNAPSHOT')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.83-RC1')
     compile(group: 'com.hazelcast', name: 'hazelcast', version: '3.5')
     compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.5')
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    archives jar
+}
+
+signing {
+    sign configurations.archives
 }
 
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "${sonatype_snapshotURL}") {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(userName: "${sonatype_user}", password: "${sonatype_password}")
+            }
+            pom.project {
+                name 'Ahome-Tooling-Server-Hazelcast'
+                packaging 'jar'
+                description 'Ahome Tooling Server Hazelcast'
+                url 'https://github.com/ahome-it/ahome-tooling-server-hazelcast'
+                scm {
+                    url 'scm:git@github.com:ahome-it/ahome-tooling-server-hazelcast.git'
+                    connection 'scm:git@github.com:ahome-it/ahome-tooling-server-hazelcast.git'
+                    developerConnection 'scm:git@github.com:ahome-it/ahome-tooling-server-hazelcast.git'
+                }
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'sprocketnyc'
+                        name 'Dean S. Jones'
+                        email 'deansjones@gmail.com'
+                        url 'http://www.lienzo-core.com'
+                    }
+                }
             }
         }
     }
