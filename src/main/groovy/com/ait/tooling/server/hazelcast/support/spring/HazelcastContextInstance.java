@@ -20,10 +20,19 @@ import java.util.Objects;
 
 import com.ait.tooling.server.core.support.spring.ServerContextInstance;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IAtomicLong;
+import com.hazelcast.core.ICountDownLatch;
+import com.hazelcast.core.IExecutorService;
 import com.hazelcast.core.IList;
+import com.hazelcast.core.ILock;
 import com.hazelcast.core.IMap;
 import com.hazelcast.core.IQueue;
+import com.hazelcast.core.ISemaphore;
+import com.hazelcast.core.ISet;
 import com.hazelcast.core.ITopic;
+import com.hazelcast.core.IdGenerator;
+import com.hazelcast.core.MultiMap;
+import com.hazelcast.core.ReplicatedMap;
 
 public class HazelcastContextInstance extends ServerContextInstance implements IHazelcastContext
 {
@@ -60,7 +69,7 @@ public class HazelcastContextInstance extends ServerContextInstance implements I
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> IList<T> getList(String name)
+    public <T> IList<T> getIList(String name)
     {
         name = Objects.requireNonNull(name);
 
@@ -75,7 +84,7 @@ public class HazelcastContextInstance extends ServerContextInstance implements I
 
     @Override
     @SuppressWarnings("unchecked")
-    public <E> IQueue<E> getQueue(String name)
+    public <E> IQueue<E> getIQueue(String name)
     {
         name = Objects.requireNonNull(name);
 
@@ -90,7 +99,7 @@ public class HazelcastContextInstance extends ServerContextInstance implements I
 
     @Override
     @SuppressWarnings("unchecked")
-    public <E> ITopic<E> getTopic(String name)
+    public <E> ITopic<E> getITopic(String name)
     {
         name = Objects.requireNonNull(name);
 
@@ -105,7 +114,7 @@ public class HazelcastContextInstance extends ServerContextInstance implements I
 
     @Override
     @SuppressWarnings("unchecked")
-    public <K, V> IMap<K, V> getMap(String name)
+    public <K, V> IMap<K, V> getIMap(String name)
     {
         name = Objects.requireNonNull(name);
 
@@ -116,5 +125,134 @@ public class HazelcastContextInstance extends ServerContextInstance implements I
             return valu;
         }
         return hz().getMap(name);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <E> ISet<E> getISet(String name)
+    {
+        name = Objects.requireNonNull(name);
+
+        final ISet<E> valu = getBeanSafely(name, ISet.class);
+
+        if (null != valu)
+        {
+            return valu;
+        }
+        return hz().getSet(name);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <K, V> MultiMap<K, V> getIMultiMap(String name)
+    {
+        name = Objects.requireNonNull(name);
+
+        final MultiMap<K, V> valu = getBeanSafely(name, MultiMap.class);
+
+        if (null != valu)
+        {
+            return valu;
+        }
+        return hz().getMultiMap(name);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <K, V> ReplicatedMap<K, V> getIReplicatedMap(String name)
+    {
+        name = Objects.requireNonNull(name);
+
+        final ReplicatedMap<K, V> valu = getBeanSafely(name, ReplicatedMap.class);
+
+        if (null != valu)
+        {
+            return valu;
+        }
+        return hz().getReplicatedMap(name);
+    }
+
+    @Override
+    public IAtomicLong getIAtomicLong(String name)
+    {
+        name = Objects.requireNonNull(name);
+
+        final IAtomicLong valu = getBeanSafely(name, IAtomicLong.class);
+
+        if (null != valu)
+        {
+            return valu;
+        }
+        return hz().getAtomicLong(name);
+    }
+
+    @Override
+    public ICountDownLatch getICountDownLatch(String name)
+    {
+        name = Objects.requireNonNull(name);
+
+        final ICountDownLatch valu = getBeanSafely(name, ICountDownLatch.class);
+
+        if (null != valu)
+        {
+            return valu;
+        }
+        return hz().getCountDownLatch(name);
+    }
+
+    @Override
+    public IdGenerator getIdGenerator(String name)
+    {
+        name = Objects.requireNonNull(name);
+
+        final IdGenerator valu = getBeanSafely(name, IdGenerator.class);
+
+        if (null != valu)
+        {
+            return valu;
+        }
+        return hz().getIdGenerator(name);
+    }
+
+    @Override
+    public IExecutorService getIExecutorService(String name)
+    {
+        name = Objects.requireNonNull(name);
+
+        final IExecutorService valu = getBeanSafely(name, IExecutorService.class);
+
+        if (null != valu)
+        {
+            return valu;
+        }
+        return hz().getExecutorService(name);
+    }
+
+    @Override
+    public ISemaphore getISemaphore(String name)
+    {
+        name = Objects.requireNonNull(name);
+
+        final ISemaphore valu = getBeanSafely(name, ISemaphore.class);
+
+        if (null != valu)
+        {
+            return valu;
+        }
+        return hz().getSemaphore(name);
+    }
+
+    @Override
+    public ILock getILock(String name)
+    {
+        name = Objects.requireNonNull(name);
+
+        final ILock valu = getBeanSafely(name, ILock.class);
+
+        if (null != valu)
+        {
+            return valu;
+        }
+        return hz().getLock(name);
     }
 }

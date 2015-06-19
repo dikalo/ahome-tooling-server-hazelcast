@@ -23,10 +23,19 @@ import com.ait.tooling.server.hazelcast.support.spring.HazelcastContextInstance
 import com.ait.tooling.server.hazelcast.support.spring.IHazelcastContext
 import com.ait.tooling.server.hazelcast.support.spring.IHazelcastInstanceProvider
 import com.hazelcast.core.HazelcastInstance
+import com.hazelcast.core.IAtomicLong;
+import com.hazelcast.core.ICountDownLatch;
+import com.hazelcast.core.IExecutorService;
 import com.hazelcast.core.IList
+import com.hazelcast.core.ILock;
 import com.hazelcast.core.IMap
 import com.hazelcast.core.IQueue
+import com.hazelcast.core.ISemaphore;
+import com.hazelcast.core.ISet;
 import com.hazelcast.core.ITopic
+import com.hazelcast.core.IdGenerator;
+import com.hazelcast.core.MultiMap;
+import com.hazelcast.core.ReplicatedMap;
 
 @CompileStatic
 public trait HazelcastTrait
@@ -55,23 +64,81 @@ public trait HazelcastTrait
         getHazelcastInstance()
     }
 
-    public <T> IList<T> getList(String name)
+    @Memoized
+    public <T> IList<T> getIList(String name)
     {
-        hz().getList(Objects.requireNonNull(name))
+        getHazelcastContext().getIList(Objects.requireNonNull(name))
     }
 
-    public <E> IQueue<E> getQueue(String name)
+    @Memoized
+    public <E> IQueue<E> getIQueue(String name)
     {
-        hz().getQueue(Objects.requireNonNull(name))
+        getHazelcastContext().getIQueue(Objects.requireNonNull(name))
     }
 
-    public <E> ITopic<E> getTopic(String name)
+    @Memoized
+    public <E> ITopic<E> getITopic(String name)
     {
-        hz().getTopic(Objects.requireNonNull(name))
+        getHazelcastContext().getITopic(Objects.requireNonNull(name))
     }
 
-    public <K, V> IMap<K, V> getMap(String name)
+    @Memoized
+    public <K, V> IMap<K, V> getIMap(String name)
     {
-        hz().getMap(Objects.requireNonNull(name))
+        getHazelcastContext().getIMap(Objects.requireNonNull(name))
+    }
+
+    @Memoized
+    public <E> ISet<E> getISet(String name)
+    {
+        getHazelcastContext().getISet(Objects.requireNonNull(name))
+    }
+
+    @Memoized
+    public <K, V> MultiMap<K, V> getIMultiMap(String name)
+    {
+        getHazelcastContext().getIMultiMap(Objects.requireNonNull(name))
+    }
+
+    @Memoized
+    public <K, V> ReplicatedMap<K, V> getIReplicatedMap(String name)
+    {
+        getHazelcastContext().getIReplicatedMap(Objects.requireNonNull(name))
+    }
+
+    @Memoized
+    public IAtomicLong getIAtomicLong(String name)
+    {
+        getHazelcastContext().getIAtomicLong(Objects.requireNonNull(name))
+    }
+
+    @Memoized
+    public ICountDownLatch getICountDownLatch(String name)
+    {
+        getHazelcastContext().getICountDownLatch(Objects.requireNonNull(name))
+    }
+
+    @Memoized
+    public IdGenerator getIdGenerator(String name)
+    {
+        getHazelcastContext().getIdGenerator(Objects.requireNonNull(name))
+    }
+
+    @Memoized
+    public IExecutorService getIExecutorService(String name)
+    {
+        getHazelcastContext().getIExecutorService(Objects.requireNonNull(name))
+    }
+
+    @Memoized
+    public ISemaphore getISemaphore(String name)
+    {
+        getHazelcastContext().getISemaphore(Objects.requireNonNull(name))
+    }
+
+    @Memoized
+    public ILock getILock(String name)
+    {
+        getHazelcastContext().getILock(Objects.requireNonNull(name))
     }
 }

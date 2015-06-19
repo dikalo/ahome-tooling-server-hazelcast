@@ -18,24 +18,51 @@ package com.ait.tooling.server.hazelcast.support.spring;
 
 import com.ait.tooling.server.core.support.spring.IServerContext;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IAtomicLong;
+import com.hazelcast.core.ICountDownLatch;
+import com.hazelcast.core.IExecutorService;
 import com.hazelcast.core.IList;
+import com.hazelcast.core.ILock;
 import com.hazelcast.core.IMap;
 import com.hazelcast.core.IQueue;
+import com.hazelcast.core.ISemaphore;
+import com.hazelcast.core.ISet;
 import com.hazelcast.core.ITopic;
+import com.hazelcast.core.IdGenerator;
+import com.hazelcast.core.MultiMap;
+import com.hazelcast.core.ReplicatedMap;
 
 public interface IHazelcastContext extends IServerContext
 {
     public IHazelcastInstanceProvider getHazelcastInstanceProvider();
 
     public HazelcastInstance getHazelcastInstance();
-    
+
     public HazelcastInstance hz();
 
-    public <T> IList<T> getList(String name);
+    public <E> ISet<E> getISet(String name);
 
-    public <E> IQueue<E> getQueue(String name);
+    public <T> IList<T> getIList(String name);
 
-    public <E> ITopic<E> getTopic(String name);
+    public <E> IQueue<E> getIQueue(String name);
 
-    public <K, V> IMap<K, V> getMap(String name);
+    public <E> ITopic<E> getITopic(String name);
+
+    public <K, V> IMap<K, V> getIMap(String name);
+
+    public <K, V> MultiMap<K, V> getIMultiMap(String name);
+
+    public <K, V> ReplicatedMap<K, V> getIReplicatedMap(String name);
+
+    public IAtomicLong getIAtomicLong(String name);
+
+    public ICountDownLatch getICountDownLatch(String name);
+
+    public IdGenerator getIdGenerator(String name);
+
+    public IExecutorService getIExecutorService(String name);
+
+    public ISemaphore getISemaphore(String name);
+
+    public ILock getILock(String name);
 }

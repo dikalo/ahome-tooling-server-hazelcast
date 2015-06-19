@@ -34,7 +34,7 @@ apply plugin: 'signing'
 
 sourceCompatibility = 1.7
 
-version = '1.0.88-RC1'
+version = '1.0.90-RC1'
 
 group = 'com.ahome-it'
 
@@ -156,7 +156,7 @@ configurations {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.83-RC1')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.85-RC1')
     compile(group: 'com.hazelcast', name: 'hazelcast', version: '3.5')
     compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.5')
 }
