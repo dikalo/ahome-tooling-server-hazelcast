@@ -16,7 +16,6 @@
 
 package com.ait.tooling.server.hazelcast.support
 
-import groovy.lang.MetaClass;
 import groovy.transform.CompileStatic
 import groovy.transform.Memoized
 
@@ -25,19 +24,19 @@ import com.ait.tooling.server.hazelcast.support.spring.HazelcastContextInstance
 import com.ait.tooling.server.hazelcast.support.spring.IHazelcastContext
 import com.ait.tooling.server.hazelcast.support.spring.IHazelcastInstanceProvider
 import com.hazelcast.core.HazelcastInstance
-import com.hazelcast.core.IAtomicLong;
-import com.hazelcast.core.ICountDownLatch;
-import com.hazelcast.core.IExecutorService;
+import com.hazelcast.core.IAtomicLong
+import com.hazelcast.core.ICountDownLatch
+import com.hazelcast.core.IExecutorService
 import com.hazelcast.core.IList
-import com.hazelcast.core.ILock;
+import com.hazelcast.core.ILock
 import com.hazelcast.core.IMap
 import com.hazelcast.core.IQueue
-import com.hazelcast.core.ISemaphore;
-import com.hazelcast.core.ISet;
+import com.hazelcast.core.ISemaphore
+import com.hazelcast.core.ISet
 import com.hazelcast.core.ITopic
-import com.hazelcast.core.IdGenerator;
-import com.hazelcast.core.MultiMap;
-import com.hazelcast.core.ReplicatedMap;
+import com.hazelcast.core.IdGenerator
+import com.hazelcast.core.MultiMap
+import com.hazelcast.core.ReplicatedMap
 
 @CompileStatic
 public class HazelcastSupport extends CoreGroovySupport implements IHazelcastContext, Serializable
