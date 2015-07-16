@@ -34,7 +34,7 @@ apply plugin: 'signing'
 
 sourceCompatibility = 1.7
 
-version = '1.0.100-RELEASE'
+version = '1.0.101-RELEASE'
 
 group = 'com.ahome-it'
 
@@ -151,12 +151,11 @@ tasks.withType(GroovyCompile) {
 }
 
 configurations {
-    compile.exclude(group: 'org.slf4j', module: 'log4j-over-slf4j')
     compile.exclude(group: 'net.sourceforge.findbugs', module: 'annotations')
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.94-RELEASE')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.95-RELEASE')
     compile(group: 'com.hazelcast', name: 'hazelcast', version: '3.5')
     compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.5')
 }
