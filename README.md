@@ -11,7 +11,7 @@ RELEASE:
 <dependency>
   <groupId>com.ahome-it</groupId>
   <artifactId>ahome-tooling-server-hazelcast</artifactId>
-  <version>1.0.104-RELEASE</version>
+  <version>1.0.105-RELEASE</version>
 </dependency>
 ```
 
