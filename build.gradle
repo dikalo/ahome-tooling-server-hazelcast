@@ -36,7 +36,7 @@ sourceCompatibility = 1.7
 
 targetCompatibility = 1.7
 
-version = '1.0.106-RELEASE'
+version = '1.0.107-RELEASE'
 
 group = 'com.ahome-it'
 
@@ -54,10 +54,12 @@ task('filterConfigs', dependsOn: deleteConfigs, type: Copy) {
     filter(ReplaceTokens, tokens: getFilterTokens())
 }
 
-task doJavaDocs(type: Javadoc) {
-    source = sourceSets.main.allJava
-    failOnError = false
-    title = "${getProjectCommonName()} ${getBuildModuleVersion()}"
+task doJavaDocs(type: Groovydoc) {
+    source = sourceSets.main.allSource
+    classpath = sourceSets.main.runtimeClasspath
+    destinationDir = file('build/docs/javadoc')
+    docTitle = "${getProjectCommonName()}"
+    footer = "<small><a href=\"${getBuildGITHomeURL()}\" target=\"_blank\">${getProjectCommonName()} - ${getBuildModuleVersion()} - Author: Dean S. Jones</a></small>"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -67,7 +69,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 task javadocJar(type: Jar, dependsOn: doJavaDocs) {
     classifier = 'javadoc'
-    from javadoc.destinationDir
+    from 'build/docs/javadoc'
 }
 
 compileJava.dependsOn(clean)
@@ -127,8 +129,12 @@ def getBuildServerBuild() {
     System.getProperty('BUILD_DISPLAY_NAME') ?: 'Command line ' + GradleVersion.current().toString()
 }
 
+def getBuildGITHomeURL() {
+    'https://github.com/ahome-it/' + getProjectArtifactID()
+}
+
 def getBuildGITCommitHash() {
-    'https://github.com/ahome-it/' + getProjectArtifactID() + '/commit/' + Grgit.open(project.file('.')).head().id
+    getBuildGITHomeURL() + '/commit/' + Grgit.open(project.file('.')).head().id
 }
 
 def getBuildGITCommitUser() {
@@ -160,8 +166,10 @@ configurations {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.106-RELEASE')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.108-RELEASE')
+    compile(group: 'javax.cache', name: 'cache-api', version: '1.0.0')
     compile(group: 'com.hazelcast', name: 'hazelcast', version: '3.5')
+    compile(group: 'com.hazelcast', name: 'hazelcast-client', version: '3.5')
     compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.5')
 }
 
