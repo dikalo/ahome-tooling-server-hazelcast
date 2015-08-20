@@ -33,6 +33,7 @@ import com.hazelcast.core.ITopic;
 import com.hazelcast.core.IdGenerator;
 import com.hazelcast.core.MultiMap;
 import com.hazelcast.core.ReplicatedMap;
+import com.hazelcast.ringbuffer.Ringbuffer;
 
 public class HazelcastContextInstance extends ServerContextInstance implements IHazelcastContext
 {
@@ -170,6 +171,21 @@ public class HazelcastContextInstance extends ServerContextInstance implements I
             return valu;
         }
         return hz().getReplicatedMap(name);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <E> Ringbuffer<E> getRingbuffer(String name)
+    {
+        name = Objects.requireNonNull(name);
+
+        final Ringbuffer<E> valu = getBeanSafely(name, Ringbuffer.class);
+
+        if (null != valu)
+        {
+            return valu;
+        }
+        return hz().getRingbuffer(name);
     }
 
     @Override

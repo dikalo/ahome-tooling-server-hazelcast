@@ -31,6 +31,7 @@ import com.hazelcast.core.ITopic;
 import com.hazelcast.core.IdGenerator;
 import com.hazelcast.core.MultiMap;
 import com.hazelcast.core.ReplicatedMap;
+import com.hazelcast.ringbuffer.Ringbuffer;
 
 public interface IHazelcastContext extends IServerContext
 {
@@ -53,6 +54,8 @@ public interface IHazelcastContext extends IServerContext
     public <K, V> MultiMap<K, V> getIMultiMap(String name);
 
     public <K, V> ReplicatedMap<K, V> getIReplicatedMap(String name);
+
+    public <E> Ringbuffer<E> getRingbuffer(String name);
 
     public IAtomicLong getIAtomicLong(String name);
 

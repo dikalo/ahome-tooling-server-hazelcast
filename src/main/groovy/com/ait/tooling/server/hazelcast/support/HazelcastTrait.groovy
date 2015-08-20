@@ -36,6 +36,7 @@ import com.hazelcast.core.ITopic
 import com.hazelcast.core.IdGenerator
 import com.hazelcast.core.MultiMap
 import com.hazelcast.core.ReplicatedMap
+import com.hazelcast.ringbuffer.Ringbuffer
 
 @CompileStatic
 public trait HazelcastTrait
@@ -104,6 +105,12 @@ public trait HazelcastTrait
     public <K, V> ReplicatedMap<K, V> getIReplicatedMap(String name)
     {
         getHazelcastContext().getIReplicatedMap(Objects.requireNonNull(name))
+    }
+
+    @Memoized
+    public <E> Ringbuffer<E> getRingbuffer(String name)
+    {
+        getHazelcastContext().getRingbuffer(Objects.requireNonNull(name))
     }
 
     @Memoized
