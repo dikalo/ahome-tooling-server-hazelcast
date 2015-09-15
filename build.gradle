@@ -26,22 +26,24 @@ buildscript {
 import org.apache.tools.ant.filters.FixCrLfFilter
 import org.apache.tools.ant.filters.ReplaceTokens
 import java.net.InetAddress
+
 import org.ajoberstar.grgit.Grgit
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'jacoco'
 apply plugin: 'signing'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
-targetCompatibility = 1.7
+targetCompatibility = 1.8
 
-version = '1.0.109-RELEASE'
+version = '1.0.111-RELEASE'
 
 group = 'com.ahome-it'
 
 task('deleteConfigs', type: Delete) {
-    FileTree tree = fileTree (dir: 'build/resources/main');
+    FileTree tree = fileTree (dir: 'build/resources/main')
     tree.each { File file ->
         delete(file)
     }
@@ -60,6 +62,10 @@ task doJavaDocs(type: Groovydoc) {
     destinationDir = file('build/docs/javadoc')
     docTitle = "${getProjectCommonName()}"
     footer = "<small><a href=\"${getBuildGITHomeURL()}\" target=\"_blank\">${getProjectCommonName()} - ${getBuildModuleVersion()} - Author: Dean S. Jones</a></small>"
+    includes = ['com/ait/tooling/server/hazelcast/**']
+    getGroovydocLinks().each { name, list ->
+        link(name, *list)
+    }
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -151,9 +157,34 @@ repositories {
 
 sourceSets {
     main {
-        resources {
-            source groovy
-        }
+        resources { source groovy }
+    }
+    test {
+        resources { source groovy }
+    }
+}
+
+task codeCoverage << {
+    println "Finished tests and code coverage."
+}
+
+codeCoverage.dependsOn jacocoTestReport
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination 'build/reports/coverage'
+    }
+}
+
+jacocoTestReport.dependsOn test
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("build/jacoco/testing.exec")
+        classDumpFile = file("build/jacoco/classpathdumps")
     }
 }
 
@@ -166,11 +197,11 @@ configurations {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.109-RELEASE')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.111-RELEASE')
     compile(group: 'javax.cache', name: 'cache-api', version: '1.0.0')
-    compile(group: 'com.hazelcast', name: 'hazelcast', version: '3.5.1')
-    compile(group: 'com.hazelcast', name: 'hazelcast-client', version: '3.5.1')
-    compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.5.1')
+    compile(group: 'com.hazelcast', name: 'hazelcast', version: '3.5.2')
+    compile(group: 'com.hazelcast', name: 'hazelcast-client', version: '3.5.2')
+    compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.5.2')
 }
 
 artifacts {
@@ -218,4 +249,41 @@ uploadArchives {
             }
         }
     }
+}
+
+def Map<String, List<String>> getGroovydocLinks() {
+    def lmap = [:]
+    File data = file('groovydoc/GROOVYDOC_LINK_LISTS.txt')
+    if (data.exists()) {
+        data.eachLine { line ->
+            def vals = ((CharSequence) line).tokenize(',')
+            lmap[vals.head()] = vals.tail()
+        }
+    }
+    lmap
+}
+
+task(buildGroovydocLinks) << {
+    def site = [:]
+    File data = file('groovydoc/GROOVYDOC_LINK_SITES.txt')
+    if (data.exists()) {
+        data.eachLine { line ->
+            site[line] = ((CharSequence) new URL("${line}/package-list").text).tokenize('\n')
+        }
+    }
+    File make = file('groovydoc/GROOVYDOC_LINK_LISTS.txt')
+    if(make.exists()) {
+        make.delete()
+    }
+    make.createNewFile()
+    def save = make.newPrintWriter()
+    site.each { link, list ->
+        def show = "${link}"
+        list.each { line ->
+            show = "${show},${line}"
+        }
+        save.println("${show}")
+    }
+    save.flush()
+    save.close()
 }
