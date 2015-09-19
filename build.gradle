@@ -44,7 +44,7 @@ sourceCompatibility = 1.8
 
 targetCompatibility = 1.8
 
-version = '1.0.111-RELEASE'
+version = '1.0.112-RELEASE'
 
 group = 'com.ahome-it'
 
@@ -205,7 +205,7 @@ tasks.withType(GroovyCompile) {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.111-RELEASE')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.112-RELEASE')
     compile(group: 'javax.cache', name: 'cache-api', version: '1.0.0')
     compile(group: 'com.hazelcast', name: 'hazelcast', version: '3.5.2')
     compile(group: 'com.hazelcast', name: 'hazelcast-client', version: '3.5.2')
