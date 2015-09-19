@@ -16,10 +16,16 @@
 
 buildscript {
     repositories {
-        mavenCentral()
+        maven {
+            credentials {
+                username "${artifactory_user}"
+                password "${artifactory_pass}"
+            }
+            url "${artifactory_repo}"
+        }
     }
     dependencies {
-        classpath(group: 'org.ajoberstar', name: 'grgit', version: '1.3.0')
+        classpath(group: 'org.ajoberstar', name: 'grgit', version: '1.4.0')
     }
 }
 
@@ -152,7 +158,13 @@ def getBuildGITCommitMessage() {
 }
 
 repositories {
-    mavenCentral()
+    maven {
+        credentials {
+            username "${artifactory_user}"
+            password "${artifactory_pass}"
+        }
+        url "${artifactory_repo}"
+    }
 }
 
 sourceSets {
@@ -165,7 +177,7 @@ sourceSets {
 }
 
 task codeCoverage << {
-    println "Finished tests and code coverage."
+    println ":Finished tests and code coverage."
 }
 
 codeCoverage.dependsOn jacocoTestReport
@@ -190,10 +202,6 @@ test {
 
 tasks.withType(GroovyCompile) {
     groovyOptions.optimizationOptions.indy = true
-}
-
-configurations {
-    compile.exclude(group: 'net.sourceforge.findbugs', module: 'annotations')
 }
 
 dependencies {
