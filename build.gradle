@@ -16,26 +16,19 @@
 
 buildscript {
     repositories {
-        maven {
-            credentials {
-                username "${artifactory_user}"
-                password "${artifactory_pass}"
-            }
-            url "${artifactory_repo}"
-        }
+        mavenCentral()
     }
     dependencies {
         classpath(group: 'org.ajoberstar', name: 'grgit', version: '1.4.0')
         classpath(group: 'commons-codec', name: 'commons-codec', version: '1.10')
         classpath(group: 'commons-logging', name: 'commons-logging', version: '1.2')
-        classpath(group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.4.1')
+        classpath(group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5')
     }
 }
 
 import org.apache.tools.ant.filters.FixCrLfFilter
 import org.apache.tools.ant.filters.ReplaceTokens
 import java.net.InetAddress
-
 import org.ajoberstar.grgit.Grgit
 
 apply plugin: 'groovy'
@@ -47,7 +40,7 @@ sourceCompatibility = 1.8
 
 targetCompatibility = 1.8
 
-version = '1.0.114-RELEASE'
+version = '1.0.115-RELEASE'
 
 group = 'com.ahome-it'
 
@@ -161,13 +154,7 @@ def getBuildGITCommitMessage() {
 }
 
 repositories {
-    maven {
-        credentials {
-            username "${artifactory_user}"
-            password "${artifactory_pass}"
-        }
-        url "${artifactory_repo}"
-    }
+    mavenCentral()
 }
 
 sourceSets {
@@ -211,7 +198,7 @@ tasks.withType(GroovyCompile) {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.114-RELEASE')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.0.115-RELEASE')
     compile(group: 'javax.cache', name: 'cache-api', version: '1.0.0')
     compile(group: 'com.hazelcast', name: 'hazelcast', version: '3.5.2')
     compile(group: 'com.hazelcast', name: 'hazelcast-client', version: '3.5.2')
