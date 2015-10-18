@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.7.1.201510041102-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[true]]></enableImports>
+	<configs>
+		<config>src/test/resources/com/ait/tooling/server/hazelcast/test/ApplicationContext.xml</config>
+		<config>src/main/resources/com/ait/tooling/server/hazelcast/config/HazelcastApplicationContext.xml</config>
+		<config>src/main/resources/com/ait/tooling/server/hazelcast/config/HazelcastCacheApplicationContext.xml</config>
+	</configs>
+	<autoconfigs>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

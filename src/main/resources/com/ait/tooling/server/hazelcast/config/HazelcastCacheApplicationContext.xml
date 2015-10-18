@@ -25,22 +25,11 @@
 						http://www.springframework.org/schema/task/spring-task.xsd
 						http://www.springframework.org/schema/cache
 						http://www.springframework.org/schema/cache/spring-cache.xsd">
-
-	<bean id="HazelcastBuildDescriptor" class="com.ait.tooling.server.core.support.spring.BuildDescriptor">
-		<constructor-arg value="@GRADLE_BUILD_PROJECT_TITLE@"/>
-		<property name="buildUser" value="@GRADLE_BUILD_USER@"/>
-		<property name="buildDate" value="@GRADLE_BUILD_DATE@"/>
-		<property name="javaVersion" value="@GRADLE_JAVA_VERSION@"/>
-		<property name="buildGITCommitHash" value="@GRADLE_GIT_COMMIT_HASH@"/>
-		<property name="buildGITCommitUser" value="@GRADLE_GIT_COMMIT_USER@"/>
-		<property name="buildGITCommitMessage" value="@GRADLE_GIT_COMMIT_MESSAGE@"/>
-		<property name="buildServerHost" value="@GRADLE_BUILD_SERVER_HOST@"/>
-		<property name="buildServerBuild" value="@GRADLE_BUILD_SERVER_BUILD@"/>
-		<property name="buildModuleVersion" value="@GRADLE_BUILD_ARTIFACT_ID@-@GRADLE_BUILD_MODULE_VERSION@.jar"/>
-	</bean>
-
-	<bean id="HazelcastInstanceProvider" class="com.ait.tooling.server.hazelcast.support.spring.HazelcastInstanceProvider">
-		<constructor-arg ref="HazelcastInstance"/>
-	</bean>
+						
+		<bean id="HazelcastSpringCacheManager" class="com.hazelcast.spring.cache.HazelcastCacheManager">
+			<constructor-arg ref="${hazelcast.instance.bean.name}"/>
+		</bean>
+		
+		<cache:annotation-driven cache-manager="HazelcastSpringCacheManager"/>
 
 </beans>
