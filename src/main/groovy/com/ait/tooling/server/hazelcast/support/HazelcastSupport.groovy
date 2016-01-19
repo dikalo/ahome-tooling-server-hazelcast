@@ -40,11 +40,9 @@ import com.hazelcast.core.ReplicatedMap
 import com.hazelcast.ringbuffer.Ringbuffer
 
 @CompileStatic
-public class HazelcastSupport extends CoreGroovySupport implements IHazelcastContext, Serializable
+public class HazelcastSupport extends CoreGroovySupport implements IHazelcastContext
 {
     private static final HazelcastSupport INSTANCE = new HazelcastSupport()
-
-    private static final long serialVersionUID = 7194686823825056219L
 
     @Memoized
     public static final HazelcastSupport getHazelcastSupport()

@@ -24,8 +24,6 @@ import com.hazelcast.core.HazelcastInstance;
 
 public final class HazelcastInstanceProvider implements IHazelcastInstanceProvider
 {
-    private static final long       serialVersionUID = 9139899257457715041L;
-
     private final HazelcastInstance m_instance;
 
     public HazelcastInstanceProvider(final HazelcastInstance instance)

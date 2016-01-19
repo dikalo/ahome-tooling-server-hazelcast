@@ -37,9 +37,7 @@ import com.hazelcast.ringbuffer.Ringbuffer;
 
 public class HazelcastContextInstance extends ServerContextInstance implements IHazelcastContext
 {
-    private static final long                     serialVersionUID = 8064409806893442509L;
-
-    private static final HazelcastContextInstance INSTANCE         = new HazelcastContextInstance();
+    private static final HazelcastContextInstance INSTANCE = new HazelcastContextInstance();
 
     public static final HazelcastContextInstance getHazelcastContextInstance()
     {

@@ -17,11 +17,10 @@
 package com.ait.tooling.server.hazelcast.support.spring;
 
 import java.io.Closeable;
-import java.io.Serializable;
 
 import com.hazelcast.core.HazelcastInstance;
 
-public interface IHazelcastInstanceProvider extends Closeable, Serializable
+public interface IHazelcastInstanceProvider extends Closeable
 {
     public HazelcastInstance getHazelcastInstance();
 }
