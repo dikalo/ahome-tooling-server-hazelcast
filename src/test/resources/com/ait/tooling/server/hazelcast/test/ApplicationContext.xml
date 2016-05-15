@@ -44,8 +44,4 @@
 		<property name="loggingLevelAsString" value="INFO"/>
 	</bean>
 
-	<bean id="AuthorizationProvider" class="com.ait.tooling.server.core.security.AnonOnlyAuthorizationProvider"/>
-
-	<bean id="PrincipalsKeysProvider" class="com.ait.tooling.server.core.support.spring.DefaultPrincipalsKeysProvider"/>
-
 </beans>
