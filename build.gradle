@@ -41,7 +41,7 @@ sourceCompatibility = 1.8
 
 targetCompatibility = 1.8
 
-version = '1.1.3-RELEASE'
+version = '1.1.4-RELEASE'
 
 group = 'com.ahome-it'
 
@@ -199,11 +199,11 @@ tasks.withType(GroovyCompile) {
 }
 
 dependencies {
-    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.1.3-RELEASE')
+    compile(group: 'com.ahome-it', name: 'ahome-tooling-server-core', version: '1.1.4-RELEASE')
     compile(group: 'javax.cache', name: 'cache-api', version: '1.0.0')
-    compile(group: 'com.hazelcast', name: 'hazelcast', version: '3.6.3')
-    compile(group: 'com.hazelcast', name: 'hazelcast-client', version: '3.6.3')
-    compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.6.3')
+    compile(group: 'com.hazelcast', name: 'hazelcast', version: '3.6.4')
+    compile(group: 'com.hazelcast', name: 'hazelcast-client', version: '3.6.4')
+    compile(group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.6.4')
     testCompile(group: 'log4j', name: 'log4j', version: '1.2.17')
     testCompile(group: 'log4j', name: 'apache-log4j-extras', version:'1.2.17')
     testCompile(group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21')
