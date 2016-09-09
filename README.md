@@ -12,13 +12,13 @@ Maven:
 <dependency>
   <groupId>com.ahome-it</groupId>
   <artifactId>ahome-tooling-server-hazelcast</artifactId>
-  <version>1.1.11-RELEASE</version>
+  <version>1.1.12-RELEASE</version>
 </dependency>
 ```
 Gradle:
 ```
 dependencies {
-    compile(group:'com.ahome-it',name:'ahome-tooling-server-hazelcast',version:'1.1.11-RELEASE')
+    compile(group:'com.ahome-it',name:'ahome-tooling-server-hazelcast',version:'1.1.12-RELEASE')
 }
 ```
 Javadoc URL:
